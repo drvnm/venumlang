@@ -1,0 +1,2 @@
+include "include2.vlang"
+"hello from file 1" println

@@ -30,6 +30,8 @@ Keywords = enum.Enum('Keywords',
                      venumDo
                      venumEndLoop
                      sus
+                     venumInclude
+                     venumHalt
                      venumContinue
                      venumInput
                      """)
@@ -49,13 +51,33 @@ def cross_reference(start, stop, content, index, reverse=False):
         elif content[i] == stop and ifs_between == 0:
             return i
 
+def pre_process(content):
+    for index, line in enumerate(content):
+        if line == "include":
+            path = content[index + 1]
+            if path.startswith("\"") and path.endswith("\"") and os.path.isfile(path[1:-1]):
+                path = path[1:-1]
+            else:
+                raise Exception("Include path invalid: %s" % path)
+            del content[index: index + 2]
+            contents = parse_to_individual(path)
+            content[index: index] = contents
+    return content
+
+def parse_to_individual(filename):
+    lines = open(filename).readlines()
+    lines = [line.strip().split("//")[0] for line in lines]
+    content = [re.findall(r'"[^"]*"|[^ ]+', line) for line in lines]
+    parsed_content = list(itertools.chain.from_iterable(content))
+    parsed_content = pre_process(parsed_content)
+    return parsed_content
         
 
 def make_tokens(content):
     toks = []
     vars = []
     for index, line in enumerate(content):
-    
+        
         if line.startswith("\"") and line.endswith("\""):
             toks.append((line[1:-1], Keywords.venumString))
         elif line.isnumeric():
@@ -94,6 +116,8 @@ def make_tokens(content):
             toks.append((None, Keywords.venumEnd))
         elif line == "do":
             toks.append((None, Keywords.venumDo, cross_reference("do", "endloop", content, index)))
+        elif line == "halt":
+            toks.append((None, Keywords.venumHalt))
         elif line == "endloop" or line == "continue":
             toks.append((cross_reference("endloop", "do", content, index, True), Keywords.venumEndLoop))
         elif index < len(content) and content[index + 1] == "+=":
@@ -118,9 +142,7 @@ def make_tokens(content):
         elif line in vars:
             toks.append((line, Keywords.venumIdf))
         else:
-            print(index)
-            print(len(content))
-            raise Exception("Unknow operation")
+            raise Exception("Unknow operation %s" % line)
     return toks
 
 def simulate(tokens):
@@ -190,6 +212,8 @@ def simulate(tokens):
             operand2 = stack.pop(0)
             result = operand1 <= operand2
             stack.insert(0, result)
+        elif operation == Keywords.venumHalt:
+            continue
         elif operation == Keywords.venumDo:
             stack_top = stack.pop(0)
             if stack_top:
@@ -282,12 +306,7 @@ def compile(tokens):
             continue
         pc += 1
         
-def parse_to_individual(filename):
-    lines = open(filename).readlines()
-    lines = [line.strip().split("//")[0] for line in lines]
-    content = [re.findall(r'"[^"]*"|[^ ]+', line) for line in lines]
-    parsed_content = list(itertools.chain.from_iterable(content))
-    return parsed_content
+
         
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -305,61 +324,6 @@ if __name__ == "__main__":
         simulate(toks)
         
     if len(sys.argv) == 3 and sys.argv[2] == "-compile" or sys.argv[2] == "-com":
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         compile(toks)
 
 

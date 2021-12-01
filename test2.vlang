@@ -1,3 +1,6 @@
+include "include.vlang"
+
+
 x = 0
 y = 2 
 
@@ -8,3 +11,6 @@ x "venum" != do
     "x is hoi" println
   end
 endloop
+"halting" print
+
+
