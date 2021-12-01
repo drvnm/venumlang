@@ -1,0 +1,10 @@
+x = 0
+y = 2 
+
+x "venum" != do
+  "please input the right word: " print
+  x = input
+  x "hoi" == if
+    "x is hoi" println
+  end
+endloop

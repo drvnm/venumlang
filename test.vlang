@@ -1,0 +1,19 @@
+veNumveNumveNum // push 3 to stack
+veNum // 1
+venumAdd // 3 + 1 and push to stack
+venumPrint // should output 4
+
+veNum // push 1 to stack
+venumPrint // should output 1
+
+venumMin // 4 - 1 and push to stack
+venumPrint // should output 3
+
+veNumveNum // push 2 to stack
+venumDiv // div 3 by 2
+venumPrint // should output 1.5
+
+veNumveNumveNumveNum // push 4 to stack
+venumMul // mul 4 by 1.5 and push to stack
+venumPrint // should output 6
+

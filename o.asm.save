@@ -1,0 +1,23 @@
+org 0x7c00
+mov si, STR
+call printf
+call read_disk
+
+jmp $ ; stop right there pal
+
+printf:
+  pusha
+  str_loop:
+    mov al, [si] ; move start adress of string in al, inc later
+    cmp al, 0
+    jne print_char
+    popa ; this is truly magic
+    ret
+    
+  print_char:
+    mov ah, 0x0e ; shift cur
+    int 0x10 ; interrupt that prints AL conten   mov si, DISK_ERR_MSG
+      call printf
+   
+STR: db `VenumOS Boot\nGitHub repo: (bruh)`, 0
+
