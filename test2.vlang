@@ -1,13 +1,11 @@
 x = 0
 
-
-
 100 x < do  
   x 3 % 0 == if 
     x 5 % 0 == if 
-    "fizzbuzz" println
-    x += 1
-    continue
+      "fizzbuzz" println
+      x += 1
+      continue
     end
   end
 

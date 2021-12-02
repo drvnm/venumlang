@@ -3,6 +3,29 @@ this is a complete joke
 
 
 # EXAMPLE: fizzbuzz in venumlang
+```cpp
+x = 0
+
+100 x < do  
+  x 3 % 0 == if 
+    x 5 % 0 == if 
+      "fizzbuzz" println
+      x += 1
+      continue
+    end
+  end
+
+  x 3 % 0 == if 
+    "fizz" println
+  end
+
+  x 5 % 0 == if 
+    "buzz" println
+  end
+  x += 1
+endloop 
+```
+
 ## stack operations
 in venumlang you use the stack for everything you want to do.
 To push something on the stack, simply type what you want
