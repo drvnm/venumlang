@@ -1,6 +1,8 @@
 # VenumLang
 this is a complete joke 
 
+
+# EXAMPLE: fizzbuzz in venumlang
 ## stack operations
 in venumlang you use the stack for everything you want to do.
 To push something on the stack, simply type what you want

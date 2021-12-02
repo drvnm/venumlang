@@ -1,16 +1,16 @@
-include "include.vlang"
-
-
 x = 0
-y = 2 
 
-x "venum" != do
-  "please input the right word: " print
-  x = input
-  x "hoi" == if
-    "x is hoi" println
+
+
+100 x < do  
+  x 2 % 0 == if 
+  "x is even" println
+  x += 1 
+   continue
   end
-endloop
-"halting" print
 
+  x += 1
+  "test" println
+endloop 
 
+"test" println

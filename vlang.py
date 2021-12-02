@@ -42,9 +42,9 @@ def cross_reference(start, stop, content, index, reverse=False):
     if reverse:
         loop_range = range(index - 1, 0, -1)
     else:
-        loop_range = range(index + 1, len(content))
+        loop_range = range(index, len(content))
     for i in loop_range:
-        if content[i] == start:
+        if content[i] == start and i != index:
             ifs_between += 1
         elif content[i] == stop and ifs_between != 0:
             ifs_between -= 1
@@ -150,6 +150,7 @@ def simulate(tokens):
     pc = 0
     stack = []
     
+    print(tokens)
     while pc < len(tokens):
         token = tokens[pc]
         operation = token[1]
@@ -174,14 +175,15 @@ def simulate(tokens):
             operand2 = stack.pop(0)
             stack.insert(0, operand1 * operand2)
         elif operation == Keywords.venumMod:
+            # print(stack)
             operand1 = stack.pop(0)
             operand2 = stack.pop(0)
             stack.insert(0, operand2 % operand1)
         elif operation == Keywords.venumPrint:
-            print(stack[0], end="")
+            print(stack.pop(0), end="")
         elif operation == Keywords.venumPrintln:
             print()
-            print(stack[0])
+            print(stack.pop(0))
         elif operation == Keywords.venumEq:
             operand1 = stack.pop(0)
             operand2 = stack.pop(0)
@@ -216,6 +218,7 @@ def simulate(tokens):
             continue
         elif operation == Keywords.venumDo:
             stack_top = stack.pop(0)
+            # print(stack_top)
             if stack_top:
                 pc += 1
                 continue
@@ -233,7 +236,10 @@ def simulate(tokens):
                 pc += 1
                 continue
             else: 
+                # print(tokens[pc - 1])
                 pc = token[2] + 1
+                
+                # print(tokens[pc - 1])
                 continue
         elif operation == Keywords.venumEnd:
             pc += 1
@@ -251,6 +257,9 @@ def simulate(tokens):
             stack.insert(0, mem[token[0]])
         elif operation == Keywords.venumIncVar:
             mem[token[0]] += token[2]
+            # print(mem[token[0]])
+            pc += 1
+            continue
         pc += 1
          
         
