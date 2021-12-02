@@ -30,7 +30,7 @@ endloop
 in venumlang you use the stack for everything you want to do.
 To push something on the stack, simply type what you want
 
-```
+```cpp
 "someString" 5 // pushing "somestring" and 5 to the stack
 print // will print 5 because 5 is on top of the stack
 >> 5 
