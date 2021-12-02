@@ -236,10 +236,7 @@ def simulate(tokens):
                 pc += 1
                 continue
             else: 
-                # print(tokens[pc - 1])
-                pc = token[2] + 1
-                
-                # print(tokens[pc - 1])
+                pc = token[2] - 2
                 continue
         elif operation == Keywords.venumEnd:
             pc += 1
