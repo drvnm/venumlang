@@ -3,6 +3,7 @@ import sys
 import os
 import re
 import itertools
+from types import prepare_class
 
 
 Keywords = enum.Enum('Keywords',
@@ -41,7 +42,7 @@ multi_vars_list = ["+=", "=", "/=", "*="]
 def cross_reference(start, stop, content, index, reverse=False): 
     ifs_between = 0
     multi_vars = 0
-    checker = 1 if reverse else -1
+    direction = 1 if reverse else -1
 
     loop_range = None
     if reverse:
@@ -49,8 +50,7 @@ def cross_reference(start, stop, content, index, reverse=False):
     else:
         loop_range = range(index, len(content))
     for i in loop_range:
-        if content[i + checker] in multi_vars_list:
-            print(content[i + 1])
+        if content[i + direction] in multi_vars_list:
             multi_vars += 1
         if content[i] == start and i != index:
             ifs_between += 1
@@ -58,6 +58,7 @@ def cross_reference(start, stop, content, index, reverse=False):
             ifs_between -= 1
         elif content[i] == stop and ifs_between == 0:
             return i - multi_vars
+            
 
 def pre_process(content):
     for index, line in enumerate(content):
@@ -154,6 +155,8 @@ def make_tokens(content):
     return toks
 
 def simulate(tokens):
+    print(tokens)
+    print(len(tokens))
     mem = {}
     pc = 0
     stack = []
@@ -187,9 +190,10 @@ def simulate(tokens):
             operand2 = stack.pop(0)
             stack.insert(0, operand2 % operand1)
         elif operation == Keywords.venumPrint:
+            pass
             print(stack.pop(0), end="")
         elif operation == Keywords.venumPrintln:
-            print()
+            pass
             print(stack.pop(0))
         elif operation == Keywords.venumEq:
             operand1 = stack.pop(0)
