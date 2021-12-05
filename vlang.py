@@ -36,20 +36,28 @@ Keywords = enum.Enum('Keywords',
                      venumInput
                      """)
 
+multi_vars_list = ["+=", "=", "/=", "*="]
+
 def cross_reference(start, stop, content, index, reverse=False): 
     ifs_between = 0
+    multi_vars = 0
+    checker = 1 if reverse else -1
+
     loop_range = None
     if reverse:
         loop_range = range(index - 1, 0, -1)
     else:
         loop_range = range(index, len(content))
     for i in loop_range:
+        if content[i + checker] in multi_vars_list:
+            print(content[i + 1])
+            multi_vars += 1
         if content[i] == start and i != index:
             ifs_between += 1
         elif content[i] == stop and ifs_between != 0:
             ifs_between -= 1
         elif content[i] == stop and ifs_between == 0:
-            return i
+            return i - multi_vars
 
 def pre_process(content):
     for index, line in enumerate(content):
@@ -150,7 +158,6 @@ def simulate(tokens):
     pc = 0
     stack = []
     
-    print(tokens)
     while pc < len(tokens):
         token = tokens[pc]
         operation = token[1]
@@ -223,7 +230,7 @@ def simulate(tokens):
                 pc += 1
                 continue
             else:
-                pc = token[2] - 1
+                pc = token[2] 
                 continue
         elif operation == Keywords.venumEndLoop:
             pc = token[0] - 3
@@ -236,7 +243,7 @@ def simulate(tokens):
                 pc += 1
                 continue
             else: 
-                pc = token[2] - 2
+                pc = token[2]
                 continue
         elif operation == Keywords.venumEnd:
             pc += 1
