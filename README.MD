@@ -99,7 +99,7 @@ this will replace these 2 tokens with the contents of that file.
 this is obvious i assume
 
 ### operators
-+ - * / % 
+\+ \- \* / % 
 
 ### halting
 you can halt a program by using the halt keyword
